@@ -1,0 +1,36 @@
+[
+    {
+        "listId": "1",
+        "name": "Reminder",
+        "color": "red",
+        "items": [
+            {
+                "itemId": "1",
+                "title": "My first to do item",
+                "isComplete": false
+            },
+            {
+                "itemId": "2",
+                "title": "My second to do item",
+                "isComplete": true
+            }
+        ]
+    },
+    {
+        "listId": "2",
+        "name": "Shopping",
+        "color": "red",
+        "items": [
+            {
+                "itemId": "1",
+                "title": "My first shopping item",
+                "isComplete": false
+            },
+            {
+                "itemId": "2",
+                "title": "My second shopping item",
+                "isComplete": true
+            }
+        ]
+    }
+]
