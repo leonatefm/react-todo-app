@@ -1,6 +1,114 @@
+*, *:before, *:after {
+  box-sizing: border-box; }
+
 html, body {
   margin: 0;
   padding: 0; }
 
-.react-todo-app h1 {
-  text-align: center; }
+html {
+  font-family: 'Helvetica Neue', Helvetica, Arial, Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.68; }
+
+.react-todo-app {
+  display: flex;
+  height: 100vh; }
+
+.side-menu {
+  width: 300px;
+  padding: 20px;
+  border-right: 1px solid #EAEAEA;
+  background-color: #F6F6F6;
+  position: relative; }
+  .side-menu h3 {
+    margin: 0;
+    height: 50px; }
+  .side-menu .search-box input {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #EAEAEA;
+    border-radius: 4px;
+    outline: none; }
+    .side-menu .search-box input::-webkit-input-placeholder {
+      /* Chrome/Opera/Safari */
+      font-style: italic;
+      font-weight: 300; }
+    .side-menu .search-box input::-moz-placeholder {
+      /* Firefox 19+ */
+      font-style: italic;
+      font-weight: 300; }
+    .side-menu .search-box input:-ms-input-placeholder {
+      /* IE 10+ */
+      font-style: italic;
+      font-weight: 300; }
+    .side-menu .search-box input:-moz-placeholder {
+      /* Firefox 18- */
+      font-style: italic;
+      font-weight: 300; }
+  .side-menu ul.todo-lists {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px -20px; }
+    .side-menu ul.todo-lists li {
+      padding: 5px 20px;
+      cursor: pointer; }
+    .side-menu ul.todo-lists li.active {
+      color: white;
+      background-color: #3E7CE8; }
+  .side-menu .add-list {
+    width: inherit;
+    left: 0;
+    bottom: 0;
+    position: fixed;
+    padding: 20px 20px;
+    background-color: #F6F6F6; }
+    .side-menu .add-list .add-btn {
+      width: auto;
+      cursor: pointer;
+      line-height: 1; }
+      .side-menu .add-list .add-btn .add-icon {
+        font-size: 20px;
+        margin-right: 5px;
+        vertical-align: text-bottom; }
+
+.list-details {
+  width: calc(100% - 300px);
+  padding: 20px; }
+  .list-details .list-header {
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #EAEAEA;
+    line-height: 1; }
+    .list-details .list-header .list-name {
+      margin: 0; }
+    .list-details .list-header .add-btn {
+      font-size: 2em;
+      cursor: pointer; }
+  .list-details ul.list-items {
+    height: calc(100vh - 70px);
+    list-style-type: none;
+    padding: 0;
+    margin: -1px 0 0 40px;
+    background: linear-gradient(to bottom, #EAEAEA 1px, transparent 1px);
+    background-size: 100% 40px; }
+    .list-details ul.list-items li {
+      height: 40px;
+      display: flex;
+      margin-left: -40px; }
+      .list-details ul.list-items li .todo-status {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1px solid #B5B5B5;
+        margin: 10px; }
+      .list-details ul.list-items li .todo-content {
+        width: calc(100% - 40px);
+        font-size: 16px;
+        border: none;
+        outline: none;
+        background: transparent; }

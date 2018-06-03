@@ -2,7 +2,7 @@
     {
         "listId": "1",
         "name": "Reminder",
-        "color": "red",
+        "color": "orange",
         "items": [
             {
                 "itemId": "1",
@@ -19,7 +19,7 @@
     {
         "listId": "2",
         "name": "Shopping",
-        "color": "red",
+        "color": "blue",
         "items": [
             {
                 "itemId": "1",

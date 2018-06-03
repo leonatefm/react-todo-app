@@ -1,10 +1,161 @@
+@charset "utf-8";
+
+// ***********************
+// *** Color Variables *** 
+// ***********************
+
+$bg-gray: #F6F6F6;
+$bd-gray: #EAEAEA;
+$bg-blue: #3E7CE8;
+
+// ******************
+// *** Typography *** 
+// ******************
+
+$base-font-size: 16px;
+$base-line-height: 1.68;
+
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
 html,body{
     margin: 0;
     padding: 0;
 }
 
+html{
+    font-family: 'Helvetica Neue', Helvetica, Arial, Roboto, sans-serif;
+    font-size: $base-font-size;
+    line-height: $base-line-height;
+}
+
+// ******************
+// ***   Layout   *** 
+// ******************
+
+$menu-size: 300px;
+
 .react-todo-app{
-    h1{
-        text-align: center;
+    display: flex;
+    height: 100vh;
+}
+
+.side-menu{
+    width: $menu-size;
+    padding: 20px;
+    border-right: 1px solid $bd-gray;
+    background-color: $bg-gray;
+    position: relative;
+    h3{
+        margin: 0;
+        height: 50px;
+    }
+    .search-box{
+        input{
+            width: 100%;
+            height: 40px;
+            padding: 10px;
+            font-size: $base-font-size;
+            border: 1px solid $bd-gray;
+            border-radius: 4px;
+            outline: none;
+            &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+                font-style: italic;
+                font-weight: 300;
+            }
+            &::-moz-placeholder { /* Firefox 19+ */
+                font-style: italic;
+                font-weight: 300;
+            }
+            &:-ms-input-placeholder { /* IE 10+ */
+                font-style: italic;
+                font-weight: 300;
+            }
+            &:-moz-placeholder { /* Firefox 18- */
+                font-style: italic;
+                font-weight: 300;
+            }
+        }
+    }
+    ul.todo-lists{
+        list-style-type: none;
+        padding: 0;
+        margin: 20px -20px;
+        li{
+            padding: 5px 20px;
+            cursor: pointer;
+        }
+        li.active{
+            color: white;
+            background-color: $bg-blue;
+        }
+    }
+    .add-list{
+        width: inherit;
+        left: 0;
+        bottom: 0;
+        position: fixed;
+        padding: 20px 20px;
+        background-color: $bg-gray;
+        .add-btn{
+            width: auto;
+            cursor: pointer;
+            line-height: 1;
+            .add-icon{
+                font-size: 20px;
+                margin-right: 5px;
+                vertical-align: text-bottom;
+            }
+        }
+    }
+}
+
+.list-details{
+    width: calc(100% - #{$menu-size});
+    padding: 20px;
+    .list-header{
+        height: 50px;
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 10px;
+        border-bottom: 1px solid $bd-gray;
+        line-height: 1;
+        .list-name{
+            margin: 0;
+        }
+        .add-btn{
+            font-size: 2em;
+            cursor: pointer;
+        }
+    }
+    ul.list-items{
+        height: calc(100vh - 70px);
+        list-style-type: none;
+        padding: 0;
+        margin: -1px 0 0 40px;
+        background: linear-gradient(to bottom, $bd-gray 1px, transparent 1px);
+        background-size: 100% 40px;
+        li{
+            height: 40px;
+            display: flex;
+            margin-left: -40px;
+            .todo-status{
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                border: 1px solid #B5B5B5;
+                margin: 10px;
+            }
+            .todo-content{
+                width: calc(100% - 40px);
+                font-size: $base-font-size;
+                border: none;
+                outline: none;
+                background: transparent;
+            }
+        }
     }
 }
