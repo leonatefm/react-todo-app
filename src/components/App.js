@@ -14,13 +14,30 @@ const colorMap = {
 	"gray": "#8e8e91"
 };
 
-class App extends Component {
+class TodoApp extends Component {
+	constructor(props){
+		super(props);
+		this.state = {
+			todoLists: data,
+			currentListId: "1"
+		}
+
+		this.switchList = this.switchList.bind(this);
+	}
+
+	switchList(listId){
+		this.setState({
+			currentListId: listId
+		});
+	}
+
 	render() {
-		console.log(data);
+		const currentList = this.state.todoLists.find((item) => { return item.listId === this.state.currentListId});  
+		
 		return (
 			<div className="react-todo-app">
-				<SideMenu></SideMenu>
-				<ListDetails></ListDetails>
+				<SideMenu todoLists={this.state.todoLists} currentListId={this.state.currentListId} switchList={this.switchList}></SideMenu>
+				<ListDetails list={currentList}></ListDetails>
 			</div>
 		);
 	}
@@ -29,11 +46,11 @@ class App extends Component {
 class SideMenu extends Component {
 	render() {
 
-		const todoLists = data.map((list) => {
-			if(list.listId === "1"){
-				return <li className="active" key={list.listId}>{list.name}</li>;
+		const todoListElems = this.props.todoLists.map((list) => {
+			if(list.listId === this.props.currentListId){
+				return <li className="active" key={list.listId} onClick={()=>{this.props.switchList(list.listId)}}>{list.name}</li>;
 			}else{
-				return <li key={list.listId}>{list.name}</li>
+				return <li key={list.listId} onClick={()=>{this.props.switchList(list.listId)}}>{list.name}</li>
 			}
 		});
 
@@ -42,7 +59,7 @@ class SideMenu extends Component {
 				<h3>Reactodo</h3>
 				<div className="search-box"><input type="text" placeholder="Search" /></div>
 				<ul className="todo-lists">
-					{todoLists}
+					{todoListElems}
 				</ul>
 				<div className="add-list">
 					<a className="add-btn"><ion-icon class="add-icon" name="add-circle"></ion-icon>Add List</a>
@@ -55,7 +72,7 @@ class SideMenu extends Component {
 class ListDetails extends Component {
 	render() {
 		
-		const list = data[0];
+		const list = this.props.list;
 		const todoItems = list.items.map((item) => <TodoItem key={item.itemId} item={item}></TodoItem>)
 		const style = {
 			color: colorMap[list.color] ? colorMap[list.color] : "#000000" 
@@ -86,4 +103,4 @@ class TodoItem extends Component {
 	}
 }
 
-export default App;
+export default TodoApp;
