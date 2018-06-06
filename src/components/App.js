@@ -23,6 +23,7 @@ class TodoApp extends Component {
 		}
 
 		this.switchList = this.switchList.bind(this);
+		this.updateList = this.updateList.bind(this);
 	}
 
 	switchList(listId){
@@ -31,13 +32,22 @@ class TodoApp extends Component {
 		});
 	}
 
+	updateList(listId, list){
+		const todoLists = this.state.todoLists;
+		const index = todoLists.findIndex(item => item.listId === listId);
+		todoLists[index] = list;
+		this.setState({
+			todoLists: todoLists
+		});
+	}
+
 	render() {
-		const currentList = this.state.todoLists.find((item) => { return item.listId === this.state.currentListId});  
+		const currentList = this.state.todoLists.find(item => item.listId === this.state.currentListId);  
 		
 		return (
 			<div className="react-todo-app">
 				<SideMenu todoLists={this.state.todoLists} currentListId={this.state.currentListId} switchList={this.switchList}></SideMenu>
-				<ListDetails list={currentList}></ListDetails>
+				<ListDetails list={currentList} updateList={this.updateList}></ListDetails>
 			</div>
 		);
 	}
@@ -70,17 +80,32 @@ class SideMenu extends Component {
 }
 
 class ListDetails extends Component {
+
+	constructor(props){
+		super(props);
+
+		this.updateItem = this.updateItem.bind(this);
+	}
+
+	updateItem(itemId, item){
+		const list = this.props.list;
+		const index = this.props.list.items.findIndex(item => item.itemId === itemId);
+		list.items[index] = item;
+
+		this.props.updateList(list.listId, list);
+	}
+
 	render() {
 		
 		const list = this.props.list;
-		const todoItems = list.items.map((item) => <TodoItem key={item.itemId} item={item}></TodoItem>)
-		const style = {
+		const todoItems = list.items.map((item) => <TodoItem key={item.itemId} item={item} updateItem={this.updateItem} color={list.color}></TodoItem>)
+		const titleStyle = {
 			color: colorMap[list.color] ? colorMap[list.color] : "#000000" 
 		}
 
 		return (
 			<div className="list-details">
-				<div className="list-header" style={style}>
+				<div className="list-header" style={titleStyle}>
 					<h1 className="list-name">{list.name}</h1>
 					<a className="add-btn"><ion-icon name="add-circle-outline"></ion-icon></a>
 				</div>
@@ -93,11 +118,37 @@ class ListDetails extends Component {
 }
 
 class TodoItem extends Component {
+
+	constructor(props){
+		super(props);
+
+		this.handleItemChange = this.handleItemChange.bind(this);
+	}
+
+	handleItemChange(e){
+	
+		const item = this.props.item;
+
+		if(e.type === "change"){
+			item.title = e.target.value;
+		}else if(e.type === "click"){
+			item.isComplete = !item.isComplete;
+		}
+
+		this.props.updateItem(item.itemId, item);
+	}
+
 	render() {
+
+		const status = this.props.item.isComplete ? "complete" : "pending";
+		const colorStyle = this.props.item.isComplete ? {
+			backgroundColor: colorMap[this.props.color] ? colorMap[this.props.color] : "#B5B5B5" 
+		} : {};
+
 		return (
-			<li>
-				<span className="todo-status"></span>
-				<input className="todo-content" type="text" value={this.props.item.title} />
+			<li className={status}>
+				<span className="todo-status" onClick={this.handleItemChange}><span className="fill" style={colorStyle}></span></span>
+				<input className="todo-content" type="text" value={this.props.item.title} onChange={this.handleItemChange} />
 			</li>
 		)	
 	}
