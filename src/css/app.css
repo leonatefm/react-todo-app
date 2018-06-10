@@ -53,7 +53,9 @@ html {
     margin: 20px -20px; }
     .side-menu ul.todo-lists li {
       padding: 5px 20px;
-      cursor: pointer; }
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between; }
     .side-menu ul.todo-lists li.active {
       color: white;
       background-color: #3E7CE8; }
@@ -68,10 +70,6 @@ html {
       width: auto;
       cursor: pointer;
       line-height: 1; }
-      .side-menu .add-list .add-btn .add-icon {
-        font-size: 20px;
-        margin-right: 5px;
-        vertical-align: text-bottom; }
 
 .list-details {
   width: calc(100% - 300px);
@@ -115,12 +113,23 @@ html {
           background-color: white;
           transition: all 0.2s ease; }
       .list-details ul.list-items li .todo-content {
-        width: calc(100% - 40px);
+        width: calc(100% - 80px);
         font-size: 16px;
         border: none;
         outline: none;
         background: transparent;
         opacity: 1;
         transition: all 0.2s ease; }
+      .list-details ul.list-items li .delete-btn {
+        display: none;
+        color: #B5B5B5;
+        line-height: 1;
+        padding: 12px;
+        text-align: center;
+        cursor: pointer; }
+        .list-details ul.list-items li .delete-btn:hover {
+          color: black; }
     .list-details ul.list-items li.complete .todo-content {
       opacity: 0.4; }
+    .list-details ul.list-items li:hover .delete-btn {
+      display: block; }

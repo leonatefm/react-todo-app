@@ -58,9 +58,9 @@ class SideMenu extends Component {
 
 		const todoListElems = this.props.todoLists.map((list) => {
 			if(list.listId === this.props.currentListId){
-				return <li className="active" key={list.listId} onClick={()=>{this.props.switchList(list.listId)}}>{list.name}</li>;
+				return <li className="active" key={list.listId} onClick={()=>{this.props.switchList(list.listId)}}><span>{list.name}</span><span>{list.items.length}</span></li>;
 			}else{
-				return <li key={list.listId} onClick={()=>{this.props.switchList(list.listId)}}>{list.name}</li>
+				return <li key={list.listId} onClick={()=>{this.props.switchList(list.listId)}}><span>{list.name}</span><span>{list.items.length}</span></li>
 			}
 		});
 
@@ -84,13 +84,18 @@ class ListDetails extends Component {
 	constructor(props){
 		super(props);
 
-		this.updateItem = this.updateItem.bind(this);
+		this.editItem = this.editItem.bind(this);
 	}
 
-	updateItem(itemId, item){
+	editItem(action, itemId, item){
 		const list = this.props.list;
 		const index = this.props.list.items.findIndex(item => item.itemId === itemId);
-		list.items[index] = item;
+
+		if(action === "update"){
+			list.items[index] = item;
+		}else if(action === "delete"){
+			list.items.splice(index, 1);	
+		}
 
 		this.props.updateList(list.listId, list);
 	}
@@ -98,7 +103,7 @@ class ListDetails extends Component {
 	render() {
 		
 		const list = this.props.list;
-		const todoItems = list.items.map((item) => <TodoItem key={item.itemId} item={item} updateItem={this.updateItem} color={list.color}></TodoItem>)
+		const todoItems = list.items.map((item) => <TodoItem key={item.itemId} item={item} editItem={this.editItem} color={list.color}></TodoItem>)
 		const titleStyle = {
 			color: colorMap[list.color] ? colorMap[list.color] : "#000000" 
 		}
@@ -123,6 +128,7 @@ class TodoItem extends Component {
 		super(props);
 
 		this.handleItemChange = this.handleItemChange.bind(this);
+		this.handleItemDelete = this.handleItemDelete.bind(this);
 	}
 
 	handleItemChange(e){
@@ -135,20 +141,28 @@ class TodoItem extends Component {
 			item.isComplete = !item.isComplete;
 		}
 
-		this.props.updateItem(item.itemId, item);
+		this.props.editItem("update", item.itemId, item);
+	}
+
+	handleItemDelete(e){
+
+		const item = this.props.item;
+
+		this.props.editItem("delete", item.itemId);
 	}
 
 	render() {
 
 		const status = this.props.item.isComplete ? "complete" : "pending";
-		const colorStyle = this.props.item.isComplete ? {
+		const bgStyle = this.props.item.isComplete ? {
 			backgroundColor: colorMap[this.props.color] ? colorMap[this.props.color] : "#B5B5B5" 
 		} : {};
 
 		return (
 			<li className={status}>
-				<span className="todo-status" onClick={this.handleItemChange}><span className="fill" style={colorStyle}></span></span>
+				<span className="todo-status" onClick={this.handleItemChange}><span className="fill" style={bgStyle}></span></span>
 				<input className="todo-content" type="text" value={this.props.item.title} onChange={this.handleItemChange} />
+				<a className="delete-btn" onClick={this.handleItemDelete}><ion-icon name="close"></ion-icon></a>
 			</li>
 		)	
 	}

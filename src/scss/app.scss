@@ -86,6 +86,8 @@ $menu-size: 300px;
         li{
             padding: 5px 20px;
             cursor: pointer;
+            display: flex;
+            justify-content: space-between;
         }
         li.active{
             color: white;
@@ -103,11 +105,6 @@ $menu-size: 300px;
             width: auto;
             cursor: pointer;
             line-height: 1;
-            .add-icon{
-                font-size: 20px;
-                margin-right: 5px;
-                vertical-align: text-bottom;
-            }
         }
     }
 }
@@ -159,7 +156,7 @@ $menu-size: 300px;
                 }
             }
             .todo-content{
-                width: calc(100% - 40px);
+                width: calc(100% - 80px);
                 font-size: $base-font-size;
                 border: none;
                 outline: none;
@@ -167,10 +164,26 @@ $menu-size: 300px;
                 opacity: 1;
                 transition: all 0.2s ease;
             }
+            .delete-btn{
+                display: none;
+                color: #B5B5B5;
+                line-height: 1;
+                padding: 12px;
+                text-align: center;
+                cursor: pointer;
+                &:hover {
+                    color: black;
+                }
+            }
         }
         li.complete{
             .todo-content{
                 opacity: 0.4;
+            }
+        }
+        li:hover{
+            .delete-btn{
+                display: block;
             }
         }
     }
