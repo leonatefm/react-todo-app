@@ -85,6 +85,7 @@ class ListDetails extends Component {
 		super(props);
 
 		this.editItem = this.editItem.bind(this);
+		this.addItem = this.addItem.bind(this);
 	}
 
 	editItem(action, itemId, item){
@@ -96,6 +97,20 @@ class ListDetails extends Component {
 		}else if(action === "delete"){
 			list.items.splice(index, 1);	
 		}
+
+		this.props.updateList(list.listId, list);
+	}
+
+	addItem(){
+		const newItem = {
+			itemId: (Date.now() + Math.random()).toString(36).substr(2),
+			title: "",
+			isComplete: false,
+			isNew: true
+		};
+		const list = this.props.list;
+
+		list.items.push(newItem);
 
 		this.props.updateList(list.listId, list);
 	}
@@ -112,7 +127,7 @@ class ListDetails extends Component {
 			<div className="list-details">
 				<div className="list-header" style={titleStyle}>
 					<h1 className="list-name">{list.name}</h1>
-					<a className="add-btn"><ion-icon name="add-circle-outline"></ion-icon></a>
+					<a className="add-btn" onClick={this.addItem}><ion-icon name="add-circle-outline"></ion-icon></a>
 				</div>
 				<ul className="list-items">
 					{todoItems}
@@ -126,9 +141,31 @@ class TodoItem extends Component {
 
 	constructor(props){
 		super(props);
-
+		this.textInput = React.createRef();
 		this.handleItemChange = this.handleItemChange.bind(this);
 		this.handleItemDelete = this.handleItemDelete.bind(this);
+		this.handleItemOnBlur = this.handleItemOnBlur.bind(this);
+	}
+
+	componentDidMount(){
+		//Autofocus on new todo item
+		if(this.props.item.isNew){
+			this.textInput.current.focus();
+		}
+	}
+
+	handleItemOnBlur(e){
+		
+		const item = this.props.item;
+
+		if(!item.isNew) return;
+
+		if(item.title.length === 0){
+			this.props.editItem("delete", item.itemId);
+		}else{
+			delete item.isNew;
+			this.props.editItem("update", item.itemId, item);
+		}
 	}
 
 	handleItemChange(e){
@@ -161,7 +198,7 @@ class TodoItem extends Component {
 		return (
 			<li className={status}>
 				<span className="todo-status" onClick={this.handleItemChange}><span className="fill" style={bgStyle}></span></span>
-				<input className="todo-content" type="text" value={this.props.item.title} onChange={this.handleItemChange} />
+				<input className="todo-content" ref={this.textInput} type="text" value={this.props.item.title} onChange={this.handleItemChange} onBlur={this.handleItemOnBlur}/>
 				<a className="delete-btn" onClick={this.handleItemDelete}><ion-icon name="close"></ion-icon></a>
 			</li>
 		)	
