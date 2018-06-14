@@ -32,12 +32,24 @@ class TodoApp extends Component {
 		});
 	}
 
-	updateList(listId, list){
+	updateList(action, listId, list){
 		const todoLists = this.state.todoLists;
 		const index = todoLists.findIndex(item => item.listId === listId);
-		todoLists[index] = list;
+		let newCurrentListId = this.state.currentListId;
+
+		if(action === "update"){
+			todoLists[index] = list;
+		}else if(action === "delete" && todoLists.length>1){
+			todoLists.splice(index, 1);	
+			//Reset current list to the first list when it gets deleted
+			if(this.state.currentListId === listId){
+				newCurrentListId = todoLists[0].listId;
+			}
+		}
+
 		this.setState({
-			todoLists: todoLists
+			todoLists: todoLists,
+			currentListId: newCurrentListId
 		});
 	}
 
@@ -46,38 +58,87 @@ class TodoApp extends Component {
 		
 		return (
 			<div className="react-todo-app">
-				<SideMenu todoLists={this.state.todoLists} currentListId={this.state.currentListId} switchList={this.switchList}></SideMenu>
+				<SideMenu todoLists={this.state.todoLists} currentListId={this.state.currentListId} switchList={this.switchList} updateList={this.updateList}></SideMenu>
 				<ListDetails list={currentList} updateList={this.updateList}></ListDetails>
 			</div>
 		);
 	}
-}
+};
 
 class SideMenu extends Component {
+
+	constructor(props){
+		super(props);
+		this.state = {
+			mode: 'view'
+		}
+
+		this.editLists = this.editLists.bind(this);
+	}
+
+	editLists(){
+		this.setState({
+			mode: this.state.mode === "view" ? "edit" : "view"
+		});
+	}
+
 	render() {
 
 		const todoListElems = this.props.todoLists.map((list) => {
-			if(list.listId === this.props.currentListId){
-				return <li className="active" key={list.listId} onClick={()=>{this.props.switchList(list.listId)}}><span>{list.name}</span><span>{list.items.length}</span></li>;
-			}else{
-				return <li key={list.listId} onClick={()=>{this.props.switchList(list.listId)}}><span>{list.name}</span><span>{list.items.length}</span></li>
-			}
+			const isActive = list.listId === this.props.currentListId ? true : false;
+			return <ListItem key={list.listId} list={list} isActive={isActive} switchList={this.props.switchList} updateList={this.props.updateList} mode={this.state.mode}></ListItem>
 		});
 
 		return (
-			<div className="side-menu">
+			<div className={"side-menu " + this.state.mode + "-mode"}>
 				<h3>Reactodo</h3>
 				<div className="search-box"><input type="text" placeholder="Search" /></div>
 				<ul className="todo-lists">
 					{todoListElems}
 				</ul>
-				<div className="add-list">
-					<a className="add-btn"><ion-icon class="add-icon" name="add-circle"></ion-icon>Add List</a>
+				<div className="list-actions">
+					<a className="add-btn">Add List</a>
+					<a className="edit-btn" onClick={this.editLists}>{this.state.mode === "view" ? "Edit" : "Done"}</a>
 				</div>
 			</div>
 		);
 	}
-}
+};
+
+class ListItem extends Component {
+
+	constructor(props){
+		super(props);
+
+		this.handleListChange = this.handleListChange.bind(this);
+	}
+
+	handleListChange(e){
+		const list = this.props.list;
+
+		if(e.type === "change"){
+			list.name = e.target.value;
+			this.props.updateList('update', list.listId, list);
+		}else if(e.type === "click"){
+			this.props.updateList('delete', list.listId);
+			e.stopPropagation();
+		}
+	}
+
+
+	render() {
+		
+		const list = this.props.list;
+		const listClass = this.props.isActive ? 'active' : '';
+
+		return (
+			<li className={listClass} onClick={()=>{if(this.props.mode==='edit') return; this.props.switchList(list.listId)}}>
+				<input className="list-name" type="text" value={list.name} disabled={this.props.mode === "view" ? true : false} onChange={this.handleListChange}/>
+				<span className="list-number">{this.props.mode === "view" ? list.items.length : <ion-icon name="close" onClick={this.handleListChange}></ion-icon>}</span>
+			</li>
+		);
+	}
+};
 
 class ListDetails extends Component {
 
@@ -98,7 +159,7 @@ class ListDetails extends Component {
 			list.items.splice(index, 1);	
 		}
 
-		this.props.updateList(list.listId, list);
+		this.props.updateList('update', list.listId, list);
 	}
 
 	addItem(){
@@ -112,7 +173,7 @@ class ListDetails extends Component {
 
 		list.items.push(newItem);
 
-		this.props.updateList(list.listId, list);
+		this.props.updateList('update', list.listId, list);
 	}
 
 	render() {
@@ -135,7 +196,7 @@ class ListDetails extends Component {
 			</div>
 		);
 	}
-}
+};
 
 class TodoItem extends Component {
 
@@ -203,6 +264,6 @@ class TodoItem extends Component {
 			</li>
 		)	
 	}
-}
+};
 
 export default TodoApp;

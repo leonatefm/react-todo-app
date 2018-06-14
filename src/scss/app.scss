@@ -83,28 +83,55 @@ $menu-size: 300px;
         list-style-type: none;
         padding: 0;
         margin: 20px -20px;
-        li{
-            padding: 5px 20px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
+    }
+    li{
+        height: 36px;
+        padding: 5px 20px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .list-name{
+            color: black;
+            width: calc(100% - 30px);
+            font-size: $base-font-size;
+            border: none;
+            outline: none;
+            background: transparent;
+            opacity: 1;
         }
-        li.active{
-            color: white;
-            background-color: $bg-blue;
+        .list-number{
+            line-height: 1;
         }
     }
-    .add-list{
+    .list-actions{
         width: inherit;
         left: 0;
         bottom: 0;
         position: fixed;
         padding: 20px 20px;
         background-color: $bg-gray;
-        .add-btn{
-            width: auto;
+        display: flex;
+        justify-content: space-between;
+        a{
             cursor: pointer;
-            line-height: 1;
+        }
+    }
+}
+
+.side-menu.view-mode{
+    li.active{
+        color: white;
+        background-color: $bg-blue;
+        .list-name{
+            color: white;
+        }
+    }
+}
+.side-menu.edit-mode{
+    li{
+        .list-name{
+            border-bottom: 1px solid black;
         }
     }
 }

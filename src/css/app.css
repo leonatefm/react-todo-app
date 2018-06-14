@@ -51,25 +51,43 @@ html {
     list-style-type: none;
     padding: 0;
     margin: 20px -20px; }
-    .side-menu ul.todo-lists li {
-      padding: 5px 20px;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between; }
-    .side-menu ul.todo-lists li.active {
-      color: white;
-      background-color: #3E7CE8; }
-  .side-menu .add-list {
+  .side-menu li {
+    height: 36px;
+    padding: 5px 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; }
+    .side-menu li .list-name {
+      color: black;
+      width: calc(100% - 30px);
+      font-size: 16px;
+      border: none;
+      outline: none;
+      background: transparent;
+      opacity: 1; }
+    .side-menu li .list-number {
+      line-height: 1; }
+  .side-menu .list-actions {
     width: inherit;
     left: 0;
     bottom: 0;
     position: fixed;
     padding: 20px 20px;
-    background-color: #F6F6F6; }
-    .side-menu .add-list .add-btn {
-      width: auto;
-      cursor: pointer;
-      line-height: 1; }
+    background-color: #F6F6F6;
+    display: flex;
+    justify-content: space-between; }
+    .side-menu .list-actions a {
+      cursor: pointer; }
+
+.side-menu.view-mode li.active {
+  color: white;
+  background-color: #3E7CE8; }
+  .side-menu.view-mode li.active .list-name {
+    color: white; }
+
+.side-menu.edit-mode li .list-name {
+  border-bottom: 1px solid black; }
 
 .list-details {
   width: calc(100% - 300px);
