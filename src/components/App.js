@@ -45,6 +45,9 @@ class TodoApp extends Component {
 			if(this.state.currentListId === listId){
 				newCurrentListId = todoLists[0].listId;
 			}
+		}else if(action === "add"){
+			todoLists.push(list);
+			newCurrentListId = listId;
 		}
 
 		this.setState({
@@ -74,12 +77,26 @@ class SideMenu extends Component {
 		}
 
 		this.editLists = this.editLists.bind(this);
+		this.addList = this.addList.bind(this);
 	}
 
 	editLists(){
 		this.setState({
 			mode: this.state.mode === "view" ? "edit" : "view"
 		});
+	}
+
+	addList() {
+		const colors = Object.keys(colorMap);
+		const newList = {
+			listId: (Date.now() + Math.random()).toString(36).substr(2),
+			name: "New List",
+			color: colors[Math.floor(Math.random()*colors.length)],
+			items: [],
+			isNew: true
+		};
+
+		this.props.updateList("add", newList.listId, newList);
 	}
 
 	render() {
@@ -97,7 +114,7 @@ class SideMenu extends Component {
 					{todoListElems}
 				</ul>
 				<div className="list-actions">
-					<a className="add-btn">Add List</a>
+					<a className="add-btn" onClick={this.addList}>Add List</a>
 					<a className="edit-btn" onClick={this.editLists}>{this.state.mode === "view" ? "Edit" : "Done"}</a>
 				</div>
 			</div>
@@ -109,8 +126,17 @@ class ListItem extends Component {
 
 	constructor(props){
 		super(props);
-
+		this.textInput = React.createRef();
 		this.handleListChange = this.handleListChange.bind(this);
+		this.handleListOnBlur = this.handleListOnBlur.bind(this);
+	}
+
+	componentDidMount(){
+		//Autofocus on new todo item
+		if(this.props.list.isNew){
+			this.textInput.current.focus();
+			this.textInput.current.select();
+		}
 	}
 
 	handleListChange(e){
@@ -125,6 +151,19 @@ class ListItem extends Component {
 		}
 	}
 
+	handleListOnBlur(e){
+		
+		const list = this.props.list;
+
+		if(!list.isNew) return;
+
+		if(list.name.length === 0){
+			this.props.updateList("delete", list.listId);
+		}else{
+			delete list.isNew;
+			this.props.updateList("update", list.listId, list);
+		}
+	}
 
 	render() {
 		
@@ -133,7 +172,7 @@ class ListItem extends Component {
 
 		return (
 			<li className={listClass} onClick={()=>{if(this.props.mode==='edit') return; this.props.switchList(list.listId)}}>
-				<input className="list-name" type="text" value={list.name} disabled={this.props.mode === "view" ? true : false} onChange={this.handleListChange}/>
+				<input className="list-name" ref={this.textInput} type="text" value={list.name} disabled={(this.props.mode === "view" && !this.props.list.isNew ) ? true : false} onChange={this.handleListChange} onBlur={this.handleListOnBlur}/>
 				<span className="list-number">{this.props.mode === "view" ? list.items.length : <ion-icon name="close" onClick={this.handleListChange}></ion-icon>}</span>
 			</li>
 		);
