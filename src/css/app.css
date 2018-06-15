@@ -90,13 +90,12 @@ html {
   border-bottom: 1px solid black; }
 
 .list-details {
-  width: calc(100% - 300px);
-  padding: 20px; }
+  width: calc(100% - 300px); }
   .list-details .list-header {
-    height: 50px;
+    height: 70px;
     display: flex;
     justify-content: space-between;
-    padding-bottom: 10px;
+    padding: 20px 20px 10px;
     border-bottom: 1px solid #EAEAEA;
     line-height: 1; }
     .list-details .list-header .list-name {
@@ -104,13 +103,21 @@ html {
     .list-details .list-header .add-btn {
       font-size: 2em;
       cursor: pointer; }
-  .list-details ul.list-items {
+  .list-details .list-content {
     height: calc(100vh - 70px);
+    overflow: auto;
+    padding: 0 20px;
+    margin: -1px 0 0;
+    display: flex;
+    flex-direction: column; }
+  .list-details ul.list-items {
+    height: 100%;
     list-style-type: none;
     padding: 0;
-    margin: -1px 0 0 40px;
+    margin: 0 0 0 40px;
     background: linear-gradient(to bottom, #EAEAEA 1px, transparent 1px);
-    background-size: 100% 40px; }
+    background-size: 100% 40px;
+    background-position-x: 40px; }
     .list-details ul.list-items li {
       height: 40px;
       display: flex;
@@ -151,3 +158,18 @@ html {
       opacity: 0.4; }
     .list-details ul.list-items li:hover .delete-btn {
       display: block; }
+  .list-details .list-section {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column; }
+    .list-details .list-section h5 {
+      font-size: 1em;
+      line-height: 39px;
+      margin: 0;
+      border-bottom: 1px solid #EAEAEA; }
+    .list-details .list-section ul.list-items {
+      margin-top: -1px;
+      padding-bottom: 1px;
+      flex-grow: 2; }
+  .list-details .list-section:last-child {
+    flex: 2 0 auto; }

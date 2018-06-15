@@ -138,12 +138,11 @@ $menu-size: 300px;
 
 .list-details{
     width: calc(100% - #{$menu-size});
-    padding: 20px;
     .list-header{
-        height: 50px;
+        height: 70px;
         display: flex;
         justify-content: space-between;
-        padding-bottom: 10px;
+        padding: 20px 20px 10px;
         border-bottom: 1px solid $bd-gray;
         line-height: 1;
         .list-name{
@@ -154,13 +153,22 @@ $menu-size: 300px;
             cursor: pointer;
         }
     }
-    ul.list-items{
+    .list-content{
         height: calc(100vh - 70px);
+        overflow: auto;
+        padding: 0 20px;
+        margin: -1px 0 0;
+        display: flex;
+        flex-direction: column;
+    }
+    ul.list-items{
+        height: 100%;
         list-style-type: none;
         padding: 0;
-        margin: -1px 0 0 40px;
+        margin: 0 0 0 40px;
         background: linear-gradient(to bottom, $bd-gray 1px, transparent 1px);
         background-size: 100% 40px;
+        background-position-x: 40px;
         li{
             height: 40px;
             display: flex;
@@ -213,5 +221,24 @@ $menu-size: 300px;
                 display: block;
             }
         }
+    }
+    .list-section{
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: column;
+        h5{
+            font-size: 1em;
+            line-height: 39px;
+            margin: 0;
+            border-bottom: 1px solid $bd-gray;
+        }
+        ul.list-items{
+            margin-top: -1px;
+            padding-bottom: 1px;
+            flex-grow: 2;
+        }
+    }
+    .list-section:last-child{
+        flex: 2 0 auto;
     }
 }

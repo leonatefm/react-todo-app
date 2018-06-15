@@ -19,16 +19,19 @@ class TodoApp extends Component {
 		super(props);
 		this.state = {
 			todoLists: data,
-			currentListId: "1"
+			currentListId: "1",
+			searchKeyword: ""
 		}
 
 		this.switchList = this.switchList.bind(this);
 		this.updateList = this.updateList.bind(this);
+		this.searchList = this.searchList.bind(this);
 	}
 
 	switchList(listId){
 		this.setState({
-			currentListId: listId
+			currentListId: listId,
+			searchKeyword: ""
 		});
 	}
 
@@ -56,12 +59,44 @@ class TodoApp extends Component {
 		});
 	}
 
+	searchList(keyword){
+		if(keyword.length>0){
+			this.setState({
+				currentListId: "",
+				searchKeyword: keyword
+			});
+		}else{
+			this.setState({
+				currentListId: this.state.todoLists[0].listId,
+				searchKeyword: ""
+			});
+		}
+	}
+
 	render() {
-		const currentList = this.state.todoLists.find(item => item.listId === this.state.currentListId);  
-		
+
+		let currentList;
+		const searchKeyword = this.state.searchKeyword;
+
+		if(searchKeyword && searchKeyword.length>0){
+			let searchResults = [];
+			this.state.todoLists.forEach(function(list, index){
+				let listItem = [];
+				list.items.forEach(function(item){
+					if(item.title.toLowerCase().includes(searchKeyword.toLowerCase())) listItem.push(item);
+				})
+				if(listItem.length>0){
+					searchResults.push({sectionId: index, name: list.name, color: list.color, items: listItem});
+				}
+			});
+			currentList = {name: 'Results for "'+ searchKeyword +'"', items:searchResults, isSearchResults: true};
+		}else{
+			currentList = this.state.todoLists.find(list => list.listId === this.state.currentListId);  
+		}
+
 		return (
 			<div className="react-todo-app">
-				<SideMenu todoLists={this.state.todoLists} currentListId={this.state.currentListId} switchList={this.switchList} updateList={this.updateList}></SideMenu>
+				<SideMenu todoLists={this.state.todoLists} currentListId={this.state.currentListId} switchList={this.switchList} updateList={this.updateList} searchList={this.searchList} searchKeyword={this.state.searchKeyword}></SideMenu>
 				<ListDetails list={currentList} updateList={this.updateList}></ListDetails>
 			</div>
 		);
@@ -109,7 +144,7 @@ class SideMenu extends Component {
 		return (
 			<div className={"side-menu " + this.state.mode + "-mode"}>
 				<h3>Reactodo</h3>
-				<div className="search-box"><input type="text" placeholder="Search" /></div>
+				<div className="search-box"><input type="text" placeholder="Search" value={this.props.searchKeyword} onChange={(e)=>{this.props.searchList(e.target.value)}}/></div>
 				<ul className="todo-lists">
 					{todoListElems}
 				</ul>
@@ -218,7 +253,28 @@ class ListDetails extends Component {
 	render() {
 		
 		const list = this.props.list;
-		const todoItems = list.items.map((item) => <TodoItem key={item.itemId} item={item} editItem={this.editItem} color={list.color}></TodoItem>)
+		let listContent;
+
+		//Generate list content based on context
+		if(!list.isSearchResults){
+			const todoItems = list.items.map((item) => <TodoItem key={item.itemId} item={item} editItem={this.editItem} color={list.color}></TodoItem>)
+			listContent = <ul className="list-items">{todoItems}</ul>;
+		}else{
+			listContent = list.items.map((section)=>{
+				const sectionItems = section.items.map((item) => <TodoItem key={item.itemId} item={item} editItem={this.editItem} color={section.color}></TodoItem>);
+				const titleStyle = {
+					color: colorMap[section.color] ? colorMap[section.color] : "#000000" 
+				}
+				return (
+					<section key={section.sectionId} className="list-section">
+						<h5 style={titleStyle}>{section.name}</h5>
+						<ul className="list-items">{sectionItems}</ul>
+					</section>
+				);
+			});
+		}
+
+
 		const titleStyle = {
 			color: colorMap[list.color] ? colorMap[list.color] : "#000000" 
 		}
@@ -227,11 +283,11 @@ class ListDetails extends Component {
 			<div className="list-details">
 				<div className="list-header" style={titleStyle}>
 					<h1 className="list-name">{list.name}</h1>
-					<a className="add-btn" onClick={this.addItem}><ion-icon name="add-circle-outline"></ion-icon></a>
+					{!list.isSearchResults && <a className="add-btn" onClick={this.addItem}><ion-icon name="add-circle-outline"></ion-icon></a>}
 				</div>
-				<ul className="list-items">
-					{todoItems}
-				</ul>
+				<div className="list-content">
+					{listContent}
+				</div>
 			</div>
 		);
 	}
