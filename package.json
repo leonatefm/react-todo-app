@@ -16,5 +16,6 @@
     "watch-css": "npm run build-css && node-sass-chokidar src/scss/ -o src/css/ --watch --recursive",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "homepage": "."
 }
