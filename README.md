@@ -18,8 +18,15 @@ The purpose of this project to practice react basics by creating a to-do app.
         - [x] Advanced Guide
         - [x] FAQ
 3. Extended reading
-    1. How to structure a react project
-    2. Scss related practices
-    3. How to break UI into components
+    - [x] How to structure a react project
+    - [x] CSS Modulers/Pre-processor/Post-processing in React
+    - [x] How to break UI into React Components
+    - [x] Immutable Data Structures (Immudatable.js, immutability-helper)
+    - [x] Create React App User Guide
 4. Mini project practice (to-do app)
-
+    - [x] Break The UI Into A Component Hierarchy
+    - [x] Build A Static Version in React
+    - [x] Identify The Minimal (but complete) Representation Of UI State
+    - [x] Identify Where Your State Should Live
+    - [x] Add Inverse Data Flow
+    - [x] Optimize Performance
