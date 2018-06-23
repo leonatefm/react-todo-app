@@ -220,6 +220,22 @@ class ListDetails extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
+
+		this.addItem = this.addItem.bind(this);
+	}
+
+	addItem() {
+		const newItem = {
+			itemId: (Date.now() + Math.random()).toString(36).substr(2),
+			title: "",
+			isComplete: false,
+			isNew: true
+		};
+		const list = this.props.list;
+
+		let newList = update(list, { items: { $push: [newItem] } })
+		console.log(newList);
+		this.props.updateList('update', list.listId, newList);
 	}
 
 	render() {
@@ -259,7 +275,6 @@ class ListSection extends React.PureComponent {
 		super(props);
 
 		this.editItem = this.editItem.bind(this);
-		this.addItem = this.addItem.bind(this);
 	}
 
 	editItem(action, itemId, item) {
@@ -272,20 +287,6 @@ class ListSection extends React.PureComponent {
 		} else if (action === "delete") {
 			newList = update(list, { items: { $splice: [[index, 1]] } });
 		}
-
-		this.props.updateList('update', list.listId, newList);
-	}
-
-	addItem() {
-		const newItem = {
-			itemId: (Date.now() + Math.random()).toString(36).substr(2),
-			title: "",
-			isComplete: false,
-			isNew: true
-		};
-		const list = this.props.list;
-
-		let newList = update(list, { items: { $push: [newItem] } })
 
 		this.props.updateList('update', list.listId, newList);
 	}
