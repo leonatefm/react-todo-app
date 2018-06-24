@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 The purpose of this project to practice react basics by creating a to-do app.
 
-## Leanring Activities
+## Learning Activities
 
 1. Code Academy
     - [x] Learn ReactJS: Part 1
@@ -23,6 +23,7 @@ The purpose of this project to practice react basics by creating a to-do app.
     - [x] How to break UI into React Components
     - [x] Immutable Data Structures (Immudatable.js, immutability-helper)
     - [x] Create React App User Guide
+    - [ ] Flux + Redux
 4. Mini project practice (to-do app)
     - [x] Break The UI Into A Component Hierarchy
     - [x] Build A Static Version in React
@@ -30,3 +31,5 @@ The purpose of this project to practice react basics by creating a to-do app.
     - [x] Identify Where Your State Should Live
     - [x] Add Inverse Data Flow
     - [x] Optimize Performance
+    - [X] Code Splitting
+    - [x] Typechecking With PropTypes
