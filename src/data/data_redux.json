@@ -1,0 +1,38 @@
+{
+    "lists": {
+        "1": {
+            "listId": "1",
+            "name": "Reminder",
+            "color": "orange",
+            "todos": ["1", "2"]
+        },
+        "2": {
+            "listId": "2",
+            "name": "Shopping",
+            "color": "blue",
+            "todos": ["3", "4"]
+        }
+    },
+    "todos": {
+        "1": {
+            "itemId": "1",
+            "title": "My first to do item",
+            "isComplete": false
+        },
+        "2": {
+            "itemId": "2",
+            "title": "My second to do item",
+            "isComplete": true
+        },
+        "3": {
+            "itemId": "3",
+            "title": "My first shopping item",
+            "isComplete": false
+        },
+        "4": {
+            "itemId": "4",
+            "title": "My second shopping item",
+            "isComplete": true
+        }
+    }
+}
