@@ -7,7 +7,11 @@ const todoReducer = (state = data.todos, action) => {
         case 'ADD_TODO':
             return update(state, { [action.item.itemId]: { $set: action.item } });
         case 'EDIT_TODO':
-            return update(state, { [action.itemId]: { title: { $set: action.title } } });
+            if (action.removeNewFlag) {
+                return update(state, { [action.itemId]: { title: { $set: action.title }, $unset: ['isNew'] } });
+            } else {
+                return update(state, { [action.itemId]: { title: { $set: action.title } } });
+            }
         case 'TOGGLE_TODO':
             return update(state, { [action.itemId]: { $toggle: ['isComplete'] } });
         case 'DELETE_TODO':

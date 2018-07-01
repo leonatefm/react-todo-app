@@ -1,7 +1,8 @@
 {
     "todoApp": {
         "currentListId": "1",
-        "lists": ["1", "2"]
+        "lists": ["1", "2"],
+        "searchKeyword": ""
     },
     "lists": {
         "1": {

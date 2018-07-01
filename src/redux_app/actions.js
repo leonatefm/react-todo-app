@@ -26,8 +26,8 @@ export const addTodo = (listId, item) => {
 	return { type: "ADD_TODO", listId, item };
 }
 
-export const editTodo = (itemId, title) => {
-	return { type: "EDIT_TODO", itemId, title };
+export const editTodo = (itemId, title, removeNewFlag) => {
+	return { type: "EDIT_TODO", itemId, title, removeNewFlag };
 }
 
 export const toggleTodo = (itemId) => {
