@@ -1,4 +1,8 @@
 {
+    "todoApp": {
+        "currentListId": "1",
+        "lists": ["1", "2"]
+    },
     "lists": {
         "1": {
             "listId": "1",
