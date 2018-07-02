@@ -45,15 +45,19 @@ const listReducer = (state = data.lists, action) => {
 };
 
 const todoAppReducer = (state = data.todoApp, action) => {
+    let newCurrentListId;
     switch (action.type) {
         case 'SWITCH_LIST':
-            return update(state, { currentListId: { $set: action.listId } });
+            return update(state, { currentListId: { $set: action.listId }, searchKeyword: { $set: "" } });
         case 'ADD_LIST':
             return update(state, { currentListId: { $set: action.list.listId }, lists: { $push: [action.list.listId] } });
         case 'DELETE_LIST':
             const index = state.lists.indexOf(action.listId);
-            const newCurrentListId = (state.currentListId === action.listId) ? ((index > 0) ? state.lists[0] : state.lists[1]) : state.currentListId;
+            newCurrentListId = (state.currentListId === action.listId) ? ((index > 0) ? state.lists[0] : state.lists[1]) : state.currentListId;
             return update(state, { lists: { $splice: [[index, 1]] }, currentListId: { $set: newCurrentListId } });
+        case 'SEARCH_LIST':
+            newCurrentListId = (action.keyword.length > 0) ? "" : state.lists[0];
+            return update(state, { searchKeyword: { $set: action.keyword }, currentListId: { $set: newCurrentListId } });
         default:
             return state;
     }

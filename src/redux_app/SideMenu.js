@@ -4,7 +4,7 @@ import MenuItem from './MenuItem.js';
 import colorMap from '../data/colors.json';
 import { connect } from 'react-redux';
 
-import { switchList, addList, editList, deleteList } from './actions.js';
+import { switchList, addList, editList, deleteList, searchList } from './actions.js';
 
 class SideMenu extends React.Component {
 
@@ -50,8 +50,8 @@ SideMenu.propTypes = {
     currentListId: PropTypes.string.isRequired,
     switchList: PropTypes.func.isRequired,
     editList: PropTypes.func.isRequired,
-    //searchList: PropTypes.func.isRequired,
-    //searchKeyword: PropTypes.string
+    searchList: PropTypes.func.isRequired,
+    searchKeyword: PropTypes.string
 };
 
 //Create container component to connect store
@@ -59,7 +59,8 @@ SideMenu.propTypes = {
 const mapStateToProps = state => {
 	return {
 		lists: state.lists,
-		currentListId: state.todoApp.currentListId
+		currentListId: state.todoApp.currentListId,
+		searchKeyword: state.todoApp.searchKeyword
 	};
 };
 
@@ -84,6 +85,9 @@ const mapDispatchToProps = dispatch => {
 		},
 		deleteList: (listId) => {
 			dispatch(deleteList(listId));
+		},
+		searchList: (keyword) => {
+			dispatch(searchList(keyword));
 		}
 	};
 };

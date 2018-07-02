@@ -22,10 +22,10 @@ class ListContent extends React.PureComponent {
 				<div className="list-content">
 					{this.props.lists.map(list =>
 						<section className="list-section" key={list.listId}>
-							{this.props.isSearchResults && <h5 style={titleStyle}>{list.name}</h5>}
+							{this.props.isSearchResults && <h5 style={{ color: colorMap[list.color] }}>{list.name}</h5>}
 							<ul className="list-items">{list.todos.map(itemId => <TodoItemContainer key={itemId} itemId={itemId} listId={list.listId} color={list.color}></TodoItemContainer>)}</ul>
 						</section>
-					)};
+					)}
 				</div>
 			</div>
 		);
@@ -49,9 +49,16 @@ ListContent.propTypes = {
 
 //Create container component to connect store
 
-const getSearchResults = (lists, keyword) => {
-	//TODO filter lists for search results
-	return lists;
+const getSearchResults = (lists, todos, keyword) => {
+	//Find all the todos matching search keywords
+	const filteredTodoIds = Object.keys(todos).filter(todoId => todos[todoId].title.toLowerCase().includes(keyword.toLowerCase()));
+	//Generate searchResults based on the filteredTodoIds
+	let searchResults = [];
+	Object.keys(lists).forEach(listId => {
+		const filteredTodos = lists[listId].todos.filter(todoId => filteredTodoIds.includes(todoId));
+		if (filteredTodos.length > 0) searchResults.push({listId: listId, name: lists[listId].name, color: lists[listId].color, todos: filteredTodos});
+	});
+	return searchResults;
 }
 
 const mapStateToProps = state => {
@@ -60,7 +67,7 @@ const mapStateToProps = state => {
 	if (isSearchResults) {
 		listContentProps.title = 'Results for "' + state.todoApp.searchKeyword + '"';
 		listContentProps.color = '#000000';
-		listContentProps.lists = getSearchResults(state.lists, state.todoApp.searchKeyword);
+		listContentProps.lists = getSearchResults(state.lists, state.todos, state.todoApp.searchKeyword);
 	} else {
 		listContentProps.title = state.lists[state.todoApp.currentListId].name;
 		listContentProps.color = colorMap[state.lists[state.todoApp.currentListId].color];

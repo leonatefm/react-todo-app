@@ -20,6 +20,10 @@ export const deleteList = (listId) => {
 	return { type: "DELETE_LIST", listId };
 }
 
+export const searchList = (keyword) => {
+	return { type: "SEARCH_LIST", keyword };
+}
+
 //Todo actions
 
 export const addTodo = (listId, item) => {
