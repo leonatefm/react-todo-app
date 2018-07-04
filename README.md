@@ -23,7 +23,7 @@ The purpose of this project to practice react basics by creating a to-do app.
     - [x] How to break UI into React Components
     - [x] Immutable Data Structures (Immudatable.js, immutability-helper)
     - [x] Create React App User Guide
-    - [ ] Flux + Redux
+    - [x] Flux + Redux : what, how, when and why.
 4. Mini project practice (to-do app)
     - [x] Break The UI Into A Component Hierarchy
     - [x] Build A Static Version in React
@@ -33,3 +33,4 @@ The purpose of this project to practice react basics by creating a to-do app.
     - [x] Optimize Performance
     - [X] Code Splitting
     - [x] Typechecking With PropTypes
+    - [x] rebuild app using Redux
