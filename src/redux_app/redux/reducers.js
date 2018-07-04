@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import data from '../data/data_redux.json';
+import data from '../../data/data_redux.json';
 import update from 'immutability-helper';
 
 const todoReducer = (state = data.todos, action) => {

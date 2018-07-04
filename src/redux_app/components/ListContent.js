@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TodoItemContainer from './TodoItem.js';
-import colorMap from '../data/colors.json';
+import colorMap from '../../data/colors.json';
 import { connect } from 'react-redux';
 
-import { addTodo } from './actions.js';
+import { addTodo } from '../redux/actions';
 
 class ListContent extends React.PureComponent {
 	render() {

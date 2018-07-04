@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MenuItem from './MenuItem.js';
-import colorMap from '../data/colors.json';
+import colorMap from '../../data/colors.json';
 import { connect } from 'react-redux';
 
-import { switchList, addList, editList, deleteList, searchList } from './actions.js';
+import { switchList, addList, editList, deleteList, searchList } from '../redux/actions.js';
 
 class SideMenu extends React.Component {
 

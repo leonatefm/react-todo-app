@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import colorMap from '../data/colors.json';
+import colorMap from '../../data/colors.json';
 import { connect } from 'react-redux';
 
-import { toggleTodo, editTodo, deleteTodo } from './actions.js';
+import { toggleTodo, editTodo, deleteTodo } from '../redux/actions';
 
 class TodoItem extends React.PureComponent {
 

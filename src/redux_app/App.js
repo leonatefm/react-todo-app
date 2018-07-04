@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import SideMenuContainer from './SideMenu.js';
-import ListContentContainer from './ListContent.js';
+import SideMenuContainer from './components/SideMenu.js';
+import ListContentContainer from './components/ListContent.js';
 import '../css/app.css';
 
 
